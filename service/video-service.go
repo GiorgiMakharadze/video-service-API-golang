@@ -11,7 +11,7 @@ type videoService struct {
 }
 
 func New() VideoService {
-	return &videoService{} 
+	return &videoService{}
 }
 
 func (service *videoService) Save(video entity.Video) entity.Video {
@@ -20,5 +20,5 @@ func (service *videoService) Save(video entity.Video) entity.Video {
 }
 
 func (service *videoService) FindAll() []entity.Video {
-    return service.videos
+	return service.videos
 }
