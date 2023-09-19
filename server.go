@@ -1,8 +1,14 @@
 package main
 
 import (
+	"fmt"
+	"io"
+	"os"
+
 	"github.com/GiorgiMakharadze/video-service-API-golang/controller"
+	"github.com/GiorgiMakharadze/video-service-API-golang/middlewares"
 	"github.com/GiorgiMakharadze/video-service-API-golang/service"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,8 +18,20 @@ var(
 
 )
 
+func setupLogOutput() {
+	f, err := os.Create("gin.log")
+	if err != nil {
+		fmt.Println(err)
+	}
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+}
+
 func main() {
-	server := gin.Default()
+	setupLogOutput()
+
+	server := gin.New()
+
+	server.Use(gin.Recovery(), middlewares.Logger())
 
 	server.GET("/videos", func(ctx *gin.Context) {
 		ctx.JSON(200, videoController.FindAll())
