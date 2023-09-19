@@ -8,6 +8,7 @@ import (
 	"github.com/GiorgiMakharadze/video-service-API-golang/controller"
 	"github.com/GiorgiMakharadze/video-service-API-golang/middlewares"
 	"github.com/GiorgiMakharadze/video-service-API-golang/service"
+	gindump "github.com/tpkeeper/gin-dump"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,7 +32,7 @@ func main() {
 
 	server := gin.New()
 
-	server.Use(gin.Recovery(), middlewares.Logger())
+	server.Use(gin.Recovery(), middlewares.Logger(), middlewares.BasicAuth(), gindump.Dump())
 
 	server.GET("/videos", func(ctx *gin.Context) {
 		ctx.JSON(200, videoController.FindAll())
